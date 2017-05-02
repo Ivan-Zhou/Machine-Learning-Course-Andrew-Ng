@@ -16,12 +16,8 @@ for iter = 1:num_iters
     % Hint: While debugging, it can be useful to print out the values
     %       of the cost function (computeCost) and gradient here.
     %
-
-
-
-
-
-
+    h_t = X*theta; % Hypothesis h theta, whose dimension becomes m*1
+    theta = theta - (alpha/m*sum((h_t - y).*X))';
 
     % ============================================================
 

@@ -13,8 +13,8 @@ J = 0;
 % Instructions: Compute the cost of a particular choice of theta
 %               You should set J to the cost.
 
-
-
+h_t = X*theta; % Hypothesis h theta, whose dimension becomes m*1
+J = 1/(2*m)*sum((h_t-y).^2); % Cost
 
 
 % =========================================================================

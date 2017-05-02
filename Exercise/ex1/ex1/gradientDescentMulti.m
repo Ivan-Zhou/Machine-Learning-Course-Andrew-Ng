@@ -17,13 +17,8 @@ for iter = 1:num_iters
     %       of the cost function (computeCostMulti) and gradient here.
     %
 
-
-
-
-
-
-
-
+    h_t = X*theta; % Hypothesis h theta, whose dimension becomes m*1
+    theta = theta - (alpha/m*sum((h_t - y).*X))';
 
 
 
