@@ -37,12 +37,10 @@ grad = zeros(size(theta));
 %
 
 
-
-
-
-
-
-
+ht = sigmoid(X*theta); % h theta (x); dimension: m*1
+J = 1/m*sum(-y.*log(ht)-(1-y).*log(1-ht)) + lambda/(2*m)*sum(theta(2:end).^2); % Cost Function
+grad(1) = 1/m*sum(X(:,1)'*(ht-y),2); % The gradient of theta 0
+grad(2:end) = 1/m*sum(X(:,2:end)'*(ht-y),2) + lambda/m.*theta(2:end); % The gradient of the remaining thetas
 
 
 % =============================================================

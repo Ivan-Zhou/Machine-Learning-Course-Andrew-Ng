@@ -22,6 +22,23 @@ p = zeros(size(X, 1), 1);
 %
 
 
+% First Hidden Layer
+% Add ones to the X data matrix
+X = [ones(m, 1) X]; % Bias Column
+% Generate the Hidden Layer
+% Dimension of Theta1 = 25*401
+A = sigmoid(X*Theta1');
+
+% Output Layer
+% Add ones to the A data matrix
+A = [ones(m, 1) A]; % Bias Column
+% Generate the Output
+% Dimension of Theta2 = 10*26
+result = sigmoid(A*Theta2');
+
+[~,p]=max(result,[],2); % Find the Max in each Row: The column number equals the label 
+
+
 
 
 

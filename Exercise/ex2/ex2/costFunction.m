@@ -24,8 +24,6 @@ ht = sigmoid(X*theta); % h theta (x); dimension: m*1
 J = 1/m*sum(-y.*log(ht)-(1-y).*log(1-ht)); % Cost Function
 grad = 1/m*sum(X'*(ht-y),2); % One row for each Feature
 
-
-
 % =============================================================
 
 end

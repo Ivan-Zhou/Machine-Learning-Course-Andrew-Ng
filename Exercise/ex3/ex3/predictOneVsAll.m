@@ -8,14 +8,14 @@ function p = predictOneVsAll(all_theta, X)
 %  of values from 1..K (e.g., p = [1; 3; 1; 2] predicts classes 1, 3, 1, 2
 %  for 4 examples) 
 
-m = size(X, 1);
+m = size(X, 1); % Number of samples
 num_labels = size(all_theta, 1);
 
 % You need to return the following variables correctly 
 p = zeros(size(X, 1), 1);
 
 % Add ones to the X data matrix
-X = [ones(m, 1) X];
+X = [ones(m, 1) X]; % Bias Column
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: Complete the following code to make predictions using
@@ -30,9 +30,9 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
-
-
-
+ % Dimension of all_theta = Number of labels * Number of Pixels
+ % Dimension of X = Number of Samples * Number of Pixels
+[~,p]=max(sigmoid(X*all_theta'),[],2); % Find the Max in each Row: The column number equals the label 
 
 
 
