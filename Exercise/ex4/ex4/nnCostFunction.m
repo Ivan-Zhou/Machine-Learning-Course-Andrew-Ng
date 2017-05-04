@@ -44,13 +44,23 @@ Theta2_grad = zeros(size(Theta2));
 %         computed in ex4.m
 
 % Compute the nodes on the second layer
-X_input = [ones(m,1) x]; % Add a bias layer to X; dimension: m * (input_layer_size+1)
-a2 = sigmoid(X_input*); % dimension: m * hidden_layer_size;
+X_input = [ones(m,1) X]; % Add a bias layer to X; dimension: m * (input_layer_size+1)
+z2 = X_input*Theta1';
+a2 = sigmoid(z2); % dimension: m * hidden_layer_size +1;
 
 % Compute the nodes on the output layer
-a2 = [ones(m,1) a2]; % Add a bias layer to a2; dimension: m * (hidden_layer_size+1);
-ht = sigmoid(Theta)
-J = 1/m*sum(-y.*log(ht)-(1-y).*log(1-ht)) + lambda/(2*m)*sum(theta(2:end).^2); % Cost Function
+a2_input = [ones(m,1) a2]; % Add a bias layer to a2; dimension: m * (hidden_layer_size+1);
+z3 = a2_input*Theta2';
+ht = sigmoid(z3);
+J = 0; % Initialize the J
+for i = 1:num_labels % Loop through each label
+    y_label = y == i;
+    ht_label = ht(:,i);
+    J = J + 1/m*sum(-y_label.*log(ht_label)-(1-y_label).*log(1-ht_label));
+end
+% We cannot add the regularization in the loop; otherwise it will be added
+% repeatedly
+J =  J + lambda/(2*m)*(sum(sum(Theta2(:,2:end).^2))+sum(sum(Theta1(:,2:end).^2)));
 
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
@@ -67,14 +77,45 @@ J = 1/m*sum(-y.*log(ht)-(1-y).*log(1-ht)) + lambda/(2*m)*sum(theta(2:end).^2); %
 %               over the training examples if you are implementing it for the 
 %               first time.
 % Partial Derivative of the cost function with respect to Theta1
-Gap1 = 0; % Rest the accumulator
-for i = 1:input_layer_size
 
+delta3 = zeros(m,num_labels);
+delta2 = zeros(m, hidden_layer_size);
 
+for t = 1:m
+    for i = 1:num_labels
+        y_label = y(t)==i; % Logical variable
+        delta3(t,i) = ht(t,i) - y_label;
+    end
+    % Hidden layer l = 2
+    % Theta2: [num_labels,(hidden_layer_size + 1)]
+    % delta3: [m, num_labels]
+    % z2: [m, (hidden_layer_size + 1)];
+    % As a result: delta2: [m, (hidden_laber_size)]
+    %size(delta3(t,:))
+    delta2(t,:) = delta3(t,:)*Theta2(:,2:end).*sigmoidGradient(z2(t,:));
+    
+    
 end
-Theta1_grad = 
-% Partial Derivative of the cost function with respect to Theta2
-Theta2_grad = 
+
+% delta3: [m, num_labels]
+% a2: [m, hidden_layer_size]
+%Delta2 = Delta2 + delta3 * a2'
+
+% delta3: [m, num_labels]
+% a2_input: m * (hidden_layer_size +1)
+% Delta2: num_labels, (hidden_layer_size + 1)
+Delta2 = delta3' * a2_input;
+% Theta2_grad: num_labels, (hidden_layer_size + 1)
+Theta2_grad = 1/m .* Delta2;
+
+% delta2: m * hidden_laber_size
+% X_input: m * (input_layer_size + 1)
+% Delta1: hidden_layer_size, (input_layer_size + 1)
+Delta1 = delta2' * X_input;
+% Theta1_grad = hidden_layer_size, (input_layer_size + 1)
+Theta1_grad = 1/m .* Delta1;
+
+
 
 % Part 3: Implement regularization with the cost function and gradients.
 %
@@ -84,23 +125,8 @@ Theta2_grad =
 %               and Theta2_grad from Part 2.
 %
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Theta1_grad(:,2:end) = Theta1_grad(:,2:end)+lambda/m.*Theta1(:,2:end);
+Theta2_grad(:,2:end) = Theta2_grad(:,2:end)+lambda/m.*Theta2(:,2:end);
 
 % -------------------------------------------------------------
 
