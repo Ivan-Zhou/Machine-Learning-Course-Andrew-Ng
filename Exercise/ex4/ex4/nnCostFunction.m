@@ -12,7 +12,11 @@ function [J grad] = nnCostFunction(nn_params, ...
 % 
 %   The returned parameter grad should be a "unrolled" vector of the
 %   partial derivatives of the neural network.
-%
+% nn_params: Weights Theta Vector
+% input_layer_size: column size of the input layer (number of pixels), single digit
+% hidden_layer_size: number of units in the hidden layer, single digit
+% num_labels: size of the output layer
+
 
 % Reshape nn_params back into the parameters Theta1 and Theta2, the weight matrices
 % for our 2 layer neural network
@@ -38,7 +42,16 @@ Theta2_grad = zeros(size(Theta2));
 %         variable J. After implementing Part 1, you can verify that your
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
-%
+
+% Compute the nodes on the second layer
+X_input = [ones(m,1) x]; % Add a bias layer to X; dimension: m * (input_layer_size+1)
+a2 = sigmoid(X_input*); % dimension: m * hidden_layer_size;
+
+% Compute the nodes on the output layer
+a2 = [ones(m,1) a2]; % Add a bias layer to a2; dimension: m * (hidden_layer_size+1);
+ht = sigmoid(Theta)
+J = 1/m*sum(-y.*log(ht)-(1-y).*log(1-ht)) + lambda/(2*m)*sum(theta(2:end).^2); % Cost Function
+
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
 %         the cost function with respect to Theta1 and Theta2 in Theta1_grad and
@@ -53,7 +66,16 @@ Theta2_grad = zeros(size(Theta2));
 %         Hint: We recommend implementing backpropagation using a for-loop
 %               over the training examples if you are implementing it for the 
 %               first time.
-%
+% Partial Derivative of the cost function with respect to Theta1
+Gap1 = 0; % Rest the accumulator
+for i = 1:input_layer_size
+
+
+end
+Theta1_grad = 
+% Partial Derivative of the cost function with respect to Theta2
+Theta2_grad = 
+
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
