@@ -21,7 +21,9 @@ X_rec = zeros(size(Z, 1), size(U, 1));
 %               Notice that U(j, 1:K) is a row vector.
 %               
 
-
+% for i = 1:size(Z,1) % Loop through every example
+v = Z; % m*K
+X_rec = v * U(:,1:K)'; % m*k * K*n
 
 % =============================================================
 

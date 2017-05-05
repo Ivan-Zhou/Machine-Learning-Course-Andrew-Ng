@@ -13,9 +13,9 @@ centroids = zeros(K, size(X, 2));
 %               the dataset X
 %
 
-
-
-
+rnd = randi(size(X,1),K,1); % Generate K random integers from range 1-m, where 
+% m is the row number of X
+centroids = X(rnd,:);
 
 
 
