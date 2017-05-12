@@ -15,7 +15,8 @@ X_poly = zeros(numel(X), p);
 %
 % 
 
-
+powers = 1:p; % Incremental Power
+X_poly = X.^powers;
 
 
 
