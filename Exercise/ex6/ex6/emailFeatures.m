@@ -48,7 +48,7 @@ x = zeros(n, 1);
 %
 %
 
-
+x(word_indices) = 1; % Mark all the corresponding elements in x as 1 based on the word_indices
 
 
 

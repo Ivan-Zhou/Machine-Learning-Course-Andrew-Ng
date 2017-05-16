@@ -97,14 +97,11 @@ while ~isempty(email_contents)
     %       str2). It will return 1 only if the two strings are equivalent.
     %
 
-
-
-
-
-
-
-
-
+    found = strcmp(str, vocabList); % Compare the word with all elements in vocabList
+    if sum(found) > 0 % One match is found
+        word_index = find(found == 1); % Find the corresponding index
+        word_indices = [word_indices ; word_index]; % Add to the list
+    end
 
     % =============================================================
 
