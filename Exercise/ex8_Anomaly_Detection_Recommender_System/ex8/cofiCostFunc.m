@@ -40,11 +40,26 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
+% Compute the Cost
+% Only consider the movie & user pair that has been rated
+J = sum(sum((X*Theta'-Y).^2.*R))/2 + lambda/2*sum(sum(Theta.^2))+ lambda/2*sum(sum(X.^2)); 
 
+% Compute the Gradient
+% X_grad: num_movies*num_features
+% (X*Theta'-Y).*R): num_movies*num_users
+% Theta: num_users*num_features
+% Product: num_movies*num_features
+X_grad = ((X*Theta'-Y).*R)*Theta + lambda.*X;
 
+% Theta_grad: num_users*num_features
+% (X*Theta'-Y).*R): num_movies*num_users
+% X: num_movies*num_features
+% Product: num_users*num_features
+Theta_grad = ((X*Theta'-Y).*R)'*X + lambda.*Theta;
 
-
-
+X_grad_reshape = reshape(X_grad,num_movies*num_features,1);
+Theta_grad_reshape = reshape(Theta_grad,num_users*num_features,1);
+grad = [X_grad_reshape;Theta_grad_reshape];
 
 
 
